@@ -16,11 +16,11 @@ function submitAnimalForm(event) {
   if (validateAnimalForm(form)) {
     // If valid, log the form values to the console
     const animalData = {
-      name: form.name.value,
-      breed: form.breed.value,
-      eyes: form.eyes.value,
-      legs: form.legs.value,
-      sound: form.sound.value,
+      name: form.elements['name'].value.trim(),
+      breed: form.elements['breed'].value.trim(),
+      eyes: form.elements['eyes'].value.trim(),
+      legs: form.elements['legs'].value.trim(),
+      sound: form.elements['sound'].value.trim(),
     };
     console.log('Animal Data:', animalData);
 
@@ -30,6 +30,9 @@ function submitAnimalForm(event) {
     // Hide the general error message if it's visible
     const messageBox = document.getElementById('message-box');
     messageBox.classList.add('d-none');
+
+    // Clear validation classes
+    clearValidation(form);
   } else {
     // If invalid, show a general error message
     const messageBox = document.getElementById('message-box');
@@ -51,13 +54,19 @@ function validateAnimalForm(form) {
 
   fields.forEach((fieldName) => {
     // Get the input field and its associated error message element
-    const field = form[fieldName];
+    const field = form.elements[fieldName];
     const errorElement = field.nextElementSibling;
+
+    // Check if the field exists
+    if (!field) {
+      console.error(`Field ${fieldName} not found in the form.`);
+      return;
+    }
 
     // Check if the field is empty
     if (!field.value.trim()) {
       isValid = false;
-      errorElement.textContent = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required.`;
+      errorElement.textContent = `${capitalize(fieldName)} is required.`;
       errorElement.classList.remove('d-none');
       field.classList.add('is-invalid');
       field.classList.remove('is-valid');
@@ -73,7 +82,7 @@ function validateAnimalForm(form) {
       const value = Number(field.value);
       if (isNaN(value) || value < 0) {
         isValid = false;
-        errorElement.textContent = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} must be a non-negative number.`;
+        errorElement.textContent = `${capitalize(fieldName)} must be a non-negative number.`;
         errorElement.classList.remove('d-none');
         field.classList.add('is-invalid');
         field.classList.remove('is-valid');
@@ -82,4 +91,29 @@ function validateAnimalForm(form) {
   });
 
   return isValid;
+}
+
+/**
+ * Clears validation classes from all fields in the form.
+ * @param {HTMLFormElement} form - The form element to clear validation for.
+ */
+function clearValidation(form) {
+  const fields = form.querySelectorAll('.is-valid, .is-invalid');
+  fields.forEach((field) => {
+    field.classList.remove('is-valid', 'is-invalid');
+  });
+
+  const errorMessages = form.querySelectorAll('.text-danger');
+  errorMessages.forEach((error) => {
+    error.classList.add('d-none');
+  });
+}
+
+/**
+ * Capitalizes the first letter of a string.
+ * @param {string} str - The string to capitalize.
+ * @returns {string} - The capitalized string.
+ */
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
