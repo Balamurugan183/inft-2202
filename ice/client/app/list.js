@@ -43,7 +43,7 @@ function drawAnimalTable(animals)
         const eleBtnEdit = document.createElement('a');
         eleBtnEdit.classList.add('btn', 'btn-primary', 'mx-1');
         eleBtnEdit.innerHTML = `<i class="fa fa-user"></i>`;
-        eleBtnEdit.href = `./add.html?name=${animal.name}`
+        eleBtnEdit.href = `./animal.html?name=${animal.name}`
         // add the edit button to the button cell
         eleBtnCell.append(eleBtnEdit);
     }
