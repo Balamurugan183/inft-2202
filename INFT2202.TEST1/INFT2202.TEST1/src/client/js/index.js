@@ -52,10 +52,12 @@ function insertMoviesIntoTable(eleTable, movies) {
         
         buttonCell.appendChild(button);
         
-        if (movie.rating <= 2) row.classList.add("table-danger");
-        else if (movie.rating <= 5) row.classList.add("table-warning");
-        else if (movie.rating <= 8) row.classList.add("table-primary");
-        else row.classList.add("table-success");
+        if (movie.rating <= 2) row.style.backgroundColor = "#ff9999";  
+        else if (movie.rating <= 4) row.style.backgroundColor = "#ffcc80"; 
+        else if (movie.rating <= 6) row.style.backgroundColor = "#b3e0ff"; 
+        else if (movie.rating <= 8) row.style.backgroundColor = "#80bfff"; 
+        else row.style.backgroundColor = "#99ff99"; 
+
     });
     
     eleTable.classList.remove("d-none");
