@@ -1,26 +1,23 @@
 import animalService from "./animal.service.mock.js";
 
-function animal(name) {
+function animal() {
     const form = document.createElement('form');
     let description = 'Add Animal';
-    let animal = null;
     function createContent() {
         const container = document.createElement('div');
         container.classList.add('mb-2');
         //create animal form content
         const mb3Name = document.createElement('div');
         mb3Name.classList.add('mb-3');
-        let editableInput = `<input type="text" class="form-control" id="name" name="name">`;
-        let readonlyInput = `<input type="text" class="form-control" id="name" name="name" value="${animal!=null?animal.name:""}" readonly>`;
         mb3Name.innerHTML = '<label for="name" class="form-label">Animal Name</label>' +
-            (animal!=null ? readonlyInput : editableInput) +
+            '<input type="text" class="form-control" id="name" name="name">' +
             '<p class="text-danger d-none"></p>';
         container.append(mb3Name);
 
         const mb3Breed = document.createElement('div');
         mb3Breed.classList.add('mb-3');
         mb3Breed.innerHTML = '<label for="breed" class="form-label">Animal Breed</label>' +
-            `<input type="text" class="form-control" id="breed" name="breed" value="${animal!=null?animal.breed:""}">` +
+            '<input type="text" class="form-control" id="breed" name="breed">' +
             '<p class="text-danger d-none"></p>';
         container.append(mb3Breed);
         
@@ -100,7 +97,7 @@ function animal(name) {
         return valid
     }    
     // create a handler to deal with the submit event
-    function submit(action) {
+    function submit() {
         // validate the form
         const valid = validate();
         // do stuff if the form is valid
@@ -120,11 +117,7 @@ function animal(name) {
 
             const eleNameError = form.name.nextElementSibling
             try {
-                if(action=="new"){
-                    animalService.saveAnimal(animalObject);
-                } else {
-                    animalService.updateAnimal(animalObject)
-                } 
+                animalService.saveAnimal(animalObject);
                 eleNameError.classList.add('d-none');
                 form.reset();
                 window.location = './list.html';
@@ -139,24 +132,13 @@ function animal(name) {
         }
     }
     
-    if (!name) {
-        // assign a handler to the submit event
-        form.addEventListener('submit', function (event) {
-            // prevent the default action from happening
-            event.preventDefault();
-            submit("new");
-        });
-    }
-    else{
-        description = 'Update Animal';
-        animal = animalService.findAnimal(name);
-        form.addEventListener('submit', function (event) {
-            // prevent the default action from happening
-            event.preventDefault();
-            submit("update");
-        });         
-    }
-
+    // assign a handler to the submit event
+    form.addEventListener('submit', function (event) {
+        // prevent the default action from happening
+        event.preventDefault();
+        submit();
+    });
+    
     return {
         description,
         element: createContent()
