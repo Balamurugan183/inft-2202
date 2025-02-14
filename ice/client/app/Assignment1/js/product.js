@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
-
     const product = {
         name: "Cool Guy Fedora",
         description: "A hat to wear on your head to attract people.",
