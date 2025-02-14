@@ -1,10 +1,13 @@
 /*
-    Name: Balamurugan Santhosam
+    Name: Milan Anil Anthore
     filename: app.js
     Course: INFT 2202
-    Date: january 10
+    Date: January 10, 2025
     Description: This is my general application script.  Functions that are required on every page should live here.
 */
+
+
+
 // tell us what page we're on
 console.log('we are on the add page');
 

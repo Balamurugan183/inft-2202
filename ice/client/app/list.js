@@ -1,3 +1,13 @@
+/*
+    Name: Milan Anil Anthore
+    filename: create.js
+    Course: INFT 2202
+    Date: January 17, 2025
+    Description: This is my script for list.
+*/
+
+
+
 import animalService from "./animal.service.mock.js";
 
 console.log('we are on the list page');

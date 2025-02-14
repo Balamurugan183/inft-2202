@@ -1,7 +1,10 @@
 <!--
 Name: Balamurugan Santhosam 
-Description: animal.html
+Course: INFT 2202
+Date: January 24, 2025
+Description: main page of animal webpage. 
 -->
+
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
@@ -16,7 +19,7 @@ Description: animal.html
       const params = new URL(document.location).searchParams;
       const name = params.get("name");
       const animal = await animalBuilder(name);
-      
+
       document.querySelector('main div h1').innerHTML = animal.description;
       const container = document.querySelector('main .container');
       container.append(animal.element);      
@@ -44,7 +47,7 @@ Description: animal.html
           <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
             <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
           </a>
-          <span class="mb-3 mb-md-0 text-body-secondary">© <span id="copyrightYear"></span> Balamurugan , Inc</span>
+          <span class="mb-3 mb-md-0 text-body-secondary">© <span id="copyrightYear"></span> Balamurugan, Inc</span>
         </div>
     
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">

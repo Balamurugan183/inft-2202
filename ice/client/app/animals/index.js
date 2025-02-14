@@ -1,13 +1,10 @@
-import animalService from "../animal.service.mock.js";
+import animalService from "./animal.service.mock.js";
 
-async function animal(name) {
+function animal(name) {
     const form = document.createElement('form');
     let description = 'Add Animal';
     let animal = null;
     function createContent() {
-        if(description == 'No service'){
-            return '';
-        }
         const container = document.createElement('div');
         container.classList.add('mb-2');
         //create animal form content
@@ -103,7 +100,7 @@ async function animal(name) {
         return valid
     }    
     // create a handler to deal with the submit event
-    async function submit(action) {
+    function submit(action) {
         // validate the form
         const valid = validate();
         // do stuff if the form is valid
@@ -124,9 +121,9 @@ async function animal(name) {
             const eleNameError = form.name.nextElementSibling
             try {
                 if(action=="new"){
-                    await animalService.saveAnimal([animalObject]);
+                    animalService.saveAnimal(animalObject);
                 } else {
-                    await animalService.updateAnimal(animalObject)
+                    animalService.updateAnimal(animalObject)
                 } 
                 eleNameError.classList.add('d-none');
                 form.reset();
@@ -152,19 +149,12 @@ async function animal(name) {
     }
     else{
         description = 'Update Animal';
-        try{
-            let ret = await animalService.findAnimal(name);
-            animal = ret[0];
-            form.addEventListener('submit', function (event) {
-                // prevent the default action from happening
-                event.preventDefault();
-                submit("update");
-            });
-        }
-        catch(err){
-//show err on page
-            description = err;
-        }
+        animal = animalService.findAnimal(name);
+        form.addEventListener('submit', function (event) {
+            // prevent the default action from happening
+            event.preventDefault();
+            submit("update");
+        });         
     }
 
     return {

@@ -1,8 +1,3 @@
-/*
-* Name: Akshay Mathew
-    filename: app.js
-    Course: INFT 2202
- */
 function AnimalService() {
 
     // if there is no entry for animals in local storage
