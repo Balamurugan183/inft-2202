@@ -1,5 +1,5 @@
 /*
-    Name: Milan Anil Anthore
+    Name: Balamurugan Santhosam
     filename: app.js
     Course: INFT 2202
     Date: January 10, 2025
