@@ -2,8 +2,10 @@
 
 import productService from "./product.service.mock.js";
 
+// Log message to indicate script execution on the product list page
 console.log('We are on the product list page');
 
+// Retrieve URL parameters to determine how many products to create
 const params = new URL(document.location).searchParams;
 let recCount = params.get("records");
 if (recCount !== null) {
@@ -18,15 +20,18 @@ if (recCount !== null) {
     }
 }
 
+// Get references to the table and empty message elements
 const eleEmpty = document.getElementById('empty-message');
 const eleTable = document.getElementById('product-list');
 
+// Define pagination settings
 let recordPage = {
     page: Number(params.get('page') ?? 1),
     perPage: Number(params.get('perPage') ?? 7)
 };
 const { records, pagination } = productService.getProductPage(recordPage);
 
+// Show or hide the table based on product records
 if (!records.length) {
     eleEmpty.classList.remove('d-none');
     eleTable.classList.add('d-none');
@@ -37,6 +42,10 @@ if (!records.length) {
     drawPagination(pagination);
 }
 
+/**
+ * Generates pagination controls and appends them to the page.
+ * @param {Object} pagination - Pagination data including page number and total pages.
+ */
 function drawPagination({ page = 1, perPage = 5, pages = 10 }) {
     const pagination = document.getElementById('pagination');
     if (pages > 1) {
@@ -58,6 +67,10 @@ function drawPagination({ page = 1, perPage = 5, pages = 10 }) {
     }
 }
 
+/**
+ * Populates the product table with data retrieved from local storage.
+ * @param {Array} products - List of products to display.
+ */
 function drawProductTable(products) {
     for (let product of products) {
         const row = eleTable.insertRow();
@@ -66,6 +79,7 @@ function drawProductTable(products) {
         row.insertCell().textContent = product.stock;
         row.insertCell().textContent = product.desc;
 
+        // Create buttons for editing and deleting products
         const eleBtnCell = row.insertCell();
         const eleBtnDelete = document.createElement('button');
         eleBtnDelete.classList.add('btn', 'btn-danger', 'mx-1');
@@ -81,6 +95,12 @@ function drawProductTable(products) {
     }
 }
 
+/**
+ * Handles the deletion of a product when the delete button is clicked.
+ * Refreshes the page after deletion.
+ * @param {Object} product - The product object to be deleted.
+ * @returns {Function} - Event handler function.
+ */
 function onDeleteButtonClick(product) {
     return event => {
         productService.deleteProduct(product);

@@ -1,80 +1,86 @@
+/* product.service.js */
 
-/*
- *  Service constructor
+/**
+ * Service constructor to manage products in local storage.
  */
 function ProductService() {
-    // if there is no entry for products in local storage
+    // If no products exist in local storage, initialize an empty array.
     if (!localStorage.getItem('products')) {
-        // create a new entry in local storage and put an empty array in it
-        localStorage.setItem('products', JSON.stringify([]))
+        localStorage.setItem('products', JSON.stringify([]));
     }
 }
 
-/*
- *
+/**
+ * Retrieves the list of products from local storage.
+ * @returns {Array} - Array of stored products.
  */
 ProductService.prototype.getProducts = function() {
-    // this will always be set, because we did it in the constructor
     return JSON.parse(localStorage.getItem('products'));
-}
+};
 
-/*
- *
+/**
+ * Saves a new product to local storage.
+ * @param {Object} product - The product object to be saved.
+ * @throws {Error} - If a product with the same name already exists.
+ * @returns {boolean} - Returns true if the product was successfully saved.
  */
 ProductService.prototype.saveProduct = function(product) {
-    // get a list of products
     const products = this.getProducts();
-    // see if this product already exists
-    if (products.find(a => a.name == product.name)) {
-        // tell the caller we're not going to save this
-        throw new Error('An product with that name already exists!');
+    if (products.find(item => item.name === product.name)) {
+        throw new Error('A product with this name already exists!');
     }
-    // if it doesn't, add it to the array
     products.push(product);
-    // and save it in storage again
     localStorage.setItem('products', JSON.stringify(products));
-    // tell the caller all was well
     return true;
-}
+};
 
-/*
- *
+/**
+ * Finds a specific product by name.
+ * @param {string} productName - The name of the product to find.
+ * @throws {Error} - If the product does not exist.
+ * @returns {Object} - The found product object.
  */
 ProductService.prototype.findProduct = function(productName) {
     const products = this.getProducts();
-    const product = products.find(a => a.name == productName);
+    const product = products.find(item => item.name === productName);
     if (!product) {
-        throw new Error('That product does not exist!');
+        throw new Error('This product does not exist!');
     }
     return product;
-}
+};
 
-/*
- *
+/**
+ * Updates an existing product in local storage.
+ * @param {Object} product - The updated product object.
+ * @throws {Error} - If the product does not exist.
+ * @returns {boolean} - Returns true if the product was successfully updated.
  */
 ProductService.prototype.updateProduct = function(product) {
     const products = this.getProducts();
-    const idx = products.findIndex(a => a.name == product.name);
-    if (idx === -1) {
-        throw new Error('That product does not exist!');
+    const index = products.findIndex(item => item.name === product.name);
+    if (index === -1) {
+        throw new Error('This product does not exist!');
     }
-    products[idx] = product;
+    products[index] = product;
     localStorage.setItem('products', JSON.stringify(products));
     return true;
-}
+};
 
-/*
- *
+/**
+ * Deletes a product from local storage.
+ * @param {Object} product - The product to delete.
+ * @throws {Error} - If the product does not exist.
+ * @returns {boolean} - Returns true if the product was successfully deleted.
  */
 ProductService.prototype.deleteProduct = function(product) {
     const products = this.getProducts();
-    const idx = products.findIndex(a => a.name == product.name);
-    if (idx === -1) {
-        throw new Error('That product does not exist!');
+    const index = products.findIndex(item => item.name === product.name);
+    if (index === -1) {
+        throw new Error('This product does not exist!');
     }
-    products.splice(idx, 1);
+    products.splice(index, 1);
     localStorage.setItem('products', JSON.stringify(products));
     return true;
-}
+};
 
 export default new ProductService();

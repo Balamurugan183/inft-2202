@@ -1,12 +1,25 @@
-/* index.js */
+/* index.js 
+Name : Balamurugan Santhosam 
+Student_ID : 100925240
+Date : 2025-02-14
+*/
 
 import productService from "./product.service.mock.js";
 
+/**
+ * Creates a product form dynamically and manages the form submission.
+ * @param {string} name - Name of the product (optional for updates)
+ * @returns {Object} - Contains form description and form element
+ */
 function product(name) {
     const form = document.createElement('form');
     let description = 'Add Product';
     let product = null;
     
+    /**
+     * Generates the form content dynamically based on product data.
+     * @returns {HTMLElement} - The form container element
+     */
     function createContent() {
         const container = document.createElement('div');
         container.classList.add('mb-2');
@@ -51,6 +64,10 @@ function product(name) {
         return form;
     }
 
+    /**
+     * Validates the form inputs before submission.
+     * @returns {boolean} - True if valid, otherwise false
+     */
     function validate() {
         let valid = true;
         const name = form.name.value;
@@ -77,6 +94,10 @@ function product(name) {
         return valid;
     }
     
+    /**
+     * Handles form submission and product data processing.
+     * @param {string} action - Defines whether it's a new product or an update
+     */
     function submit(action) {
         const valid = validate();
         if (valid) {
