@@ -2,10 +2,9 @@ function redirectTo(page) {
     window.location.href = page;
 }
 
-// Make "No" button move when hovered
 document.addEventListener("DOMContentLoaded", function() {
     const noButton = document.getElementById("movingNo");
-
+    
     if (noButton) {
         noButton.addEventListener("mouseover", function() {
             const x = Math.random() * (window.innerWidth - 100);

@@ -9,9 +9,9 @@ body {
 }
 
 img {
-    width: 200px;  /* Adjust width */
-    height: auto;  /* Maintain aspect ratio */
-    border-radius: 10px; /* Rounded corners */
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
 }
 
 h2 {
@@ -42,3 +42,4 @@ button {
 button:hover {
     background-color: #FF1493;
 }
+    
