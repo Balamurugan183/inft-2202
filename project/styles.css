@@ -9,9 +9,9 @@ body {
 }
 
 img {
-    width: 150px;
-    height: auto;
-    border-radius: 10px;
+    width: 200px;  /* Adjust width */
+    height: auto;  /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners */
 }
 
 h2 {
