@@ -5,7 +5,9 @@ body {
 }
 
 .container {
-    margin-top: 100px;
+    background-image: url("images/cat_shy.webp");
+    background-size: cover;
+    background-position: center;
 }
 
 img {
@@ -42,4 +44,3 @@ button {
 button:hover {
     background-color: #FF1493;
 }
-    
