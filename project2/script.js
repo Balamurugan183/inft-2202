@@ -1,29 +1,37 @@
 const cards = document.querySelectorAll(".card");
 
-let activeCard = null;
-let startX, startY, offsetX, offsetY;
+cards.forEach((card, index) => {
+    let isDragging = false;
+    let startX, startY, offsetX = 0, offsetY = 0;
 
-cards.forEach((card) => {
     card.addEventListener("mousedown", (e) => {
-        activeCard = card;
+        isDragging = true;
+        card.style.zIndex = 10; // Bring the dragged card to the front
         startX = e.clientX;
         startY = e.clientY;
         offsetX = card.offsetLeft;
         offsetY = card.offsetTop;
         card.style.cursor = "grabbing";
-    });
 
-    document.addEventListener("mousemove", (e) => {
-        if (!activeCard) return;
-        let x = offsetX + (e.clientX - startX);
-        let y = offsetY + (e.clientY - startY);
-        activeCard.style.transform = `translate(${x}px, ${y}px) rotate(5deg)`;
-    });
-
-    document.addEventListener("mouseup", () => {
-        if (activeCard) {
-            activeCard.style.cursor = "grab";
-            activeCard = null;
+        function moveAt(pageX, pageY) {
+            card.style.left = pageX - startX + offsetX + "px";
+            card.style.top = pageY - startY + offsetY + "px";
         }
+
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+        }
+
+        document.addEventListener("mousemove", onMouseMove);
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            card.style.cursor = "grab";
+            document.removeEventListener("mousemove", onMouseMove);
+            card.style.zIndex = index + 1; // Restore z-index order
+        }, { once: true });
     });
+
+    // Prevent default dragging behavior
+    card.ondragstart = () => false;
 });
