@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata -->
+    <meta charset="UTF-8"> <!-- Defines character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design -->
+    <title>Web Shop - Home</title> <!-- Page title displayed in browser tab -->
+
+    <!-- Linking external CSS file -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Including Bootstrap for styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->  
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d6e9ff">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Web Shop</a> <!-- Website logo/name -->
+
+            <!-- Button for mobile navigation -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible navigation menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Navigation Links -->
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li> <!-- Active page -->
+                    <li class="nav-item"><a class="nav-link" href="list.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create.html">Add Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Image Carousel Section -->
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <!-- First Slide (Active) -->
+            <div class="carousel-item active">
+                <img src="img/mike-petrucci-c9FQyqIECds-unsplash.jpg" class="d-block w-100" alt="Store Image">
+            </div>
+            <!-- Second Slide -->
+            <div class="carousel-item">
+                <img src="img/mike-petrucci-c9FQyqIECds-unsplash.jpg" class="d-block w-100" alt="Store Image">
+            </div>
+            <!-- Third Slide -->
+            <div class="carousel-item">
+                <img src="img/mike-petrucci-c9FQyqIECds-unsplash.jpg" class="d-block w-100" alt="Store Image">
+            </div>
+        </div>
+
+        <!-- Previous Button -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <!-- Next Button -->
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-4 bg-light">
+        <p>&copy; <span id="year"></span> Bala</p> <!-- Dynamic copyright year -->
+    </footer>
+
+    <!-- JavaScript to dynamically update the year in the footer -->
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Bootstrap JavaScript Bundle for interactive components -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
