@@ -33,3 +33,95 @@
         // if this movie is rated higher than two but less than or equal to five, make this row orange
         // if this movie is rated higher than five but less than or equal to 8, make this row blue
         // if this movie is rated higher than eight, make this row green
+
+
+// Add name and year to footer
+const footer = document.querySelector('footer');
+footer.textContent = `© Bala - ${new Date().getFullYear()}`;
+
+// fetchMovies function
+async function fetchMovies(genre = null, rating = null) {
+    try {
+        const params = new URLSearchParams();
+        if (genre) params.append('genre', genre);
+        if (rating) params.append('rating', rating);
+
+        const url = new URL(`/api/movies?${params.toString()}`, window.location.origin);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+
+        const req = new Request(url, { method: 'GET', headers });
+        const response = await fetch(req);
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        return await response.json();
+    } catch (err) {
+        throw new Error(`Error fetching movies: ${err.message}`);
+    }
+}
+
+// insertMoviesIntoTable function
+function insertMoviesIntoTable(table, movies) {
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = ''; // Clear previous rows
+
+    movies.forEach(movie => {
+        const row = document.createElement('tr');
+
+        // Convert timestamp to readable date
+        const date = new Date(movie.datetime * 1000).toLocaleDateString();
+
+        // Populate row with movie data
+        ['title', 'genre', 'rating'].forEach(attr => {
+            const cell = document.createElement('td');
+            cell.textContent = movie[attr];
+            row.appendChild(cell);
+        });
+
+        const dateCell = document.createElement('td');
+        dateCell.textContent = date;
+        row.appendChild(dateCell);
+
+        // Color rows based on rating
+        if (movie.rating <= 2) row.style.backgroundColor = 'red';
+        else if (movie.rating <= 5) row.style.backgroundColor = 'orange';
+        else if (movie.rating <= 8) row.style.backgroundColor = 'blue';
+        else row.style.backgroundColor = 'green';
+
+        tbody.appendChild(row);
+    });
+}
+
+// Handle dropdown changes
+const genreSelect = document.querySelector('#genre');
+const ratingSelect = document.querySelector('#rating');
+const table = document.querySelector('table');
+const errorDiv = document.querySelector('#error');
+
+async function handleFilters() {
+    const genre = genreSelect.value || null;
+    const rating = ratingSelect.value || null;
+
+    try {
+        const movies = await fetchMovies(genre, rating);
+
+        if (movies.length > 0) {
+            table.style.display = '';
+            errorDiv.textContent = '';
+            insertMoviesIntoTable(table, movies);
+        } else {
+            table.style.display = 'none';
+            errorDiv.textContent = 'No movies match your selected filters.';
+        }
+    } catch (err) {
+        table.style.display = 'none';
+        errorDiv.textContent = err.message;
+    }
+}
+
+genreSelect.addEventListener('change', handleFilters);
+ratingSelect.addEventListener('change', handleFilters);
+
+
