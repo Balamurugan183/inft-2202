@@ -1,7 +1,14 @@
 // import the express library
-const express = require('express');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import movies from './data/movies.json' assert { type: 'json' };
 
-// set the port for the server, use 3022
+// Get __dirname equivalent in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// set the port for the server
 const PORT = 3022;
 
 // create a new server instance
@@ -10,24 +17,20 @@ const app = express();
 // configure the body renderer to parse json inputs
 app.use(express.json());
 
-// automatically serve static assets from the client folder
-app.use(express.static('client'));
+// serve static files from client folder
+app.use(express.static(path.join(__dirname, '../client')));
 
-// automatically serve static assets from the node_modules folder
-app.use('/scripts', express.static('node_modules'));
+// serve node_modules scripts
+app.use('/scripts', express.static(path.join(__dirname, '../../node_modules')));
 
-// create a new router instance
+// create a router
 const router = express.Router();
 
-// import the movie data
-const movies = require('./data/movies.json');
-
-// create a new route and route handler
+// handle GET /api/movies
 router.get('/api/movies', (req, res) => {
     let { rating, genre } = req.query;
     let filteredMovies = [...movies];
 
-    // Check and filter by rating
     if (rating !== undefined) {
         const parsedRating = parseFloat(rating);
         if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 10) {
@@ -36,7 +39,6 @@ router.get('/api/movies', (req, res) => {
         filteredMovies = filteredMovies.filter(movie => movie.rating < parsedRating);
     }
 
-    // Check and filter by genre (case-insensitive)
     if (genre !== undefined) {
         const genreLower = genre.toLowerCase();
         const genreMatches = filteredMovies.filter(movie =>
@@ -48,16 +50,14 @@ router.get('/api/movies', (req, res) => {
         filteredMovies = genreMatches;
     }
 
-    // Sort movies from highest rated to lowest
     filteredMovies.sort((a, b) => b.rating - a.rating);
-
     res.json(filteredMovies);
 });
 
-// configure the server to use your new router instance
+// mount router
 app.use(router);
 
-// start the server
+// start server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
