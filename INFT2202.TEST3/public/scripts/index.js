@@ -33,28 +33,25 @@
         // if this movie is rated higher than two but less than or equal to five, make this row orange
         // if this movie is rated higher than five but less than or equal to 8, make this row blue
         // if this movie is rated higher than eight, make this row green
+// Set footer with name and year
+document.querySelector('footer').textContent = `© Shrihari Krishna - ${new Date().getFullYear()}`;
 
-// Add footer content
-const footer = document.querySelector('footer');
-footer.textContent = `© Bala - ${new Date().getFullYear()}`;
-
-// Fetch movies from API
+// Fetch movies
 async function fetchMovies(genre = null, rating = null) {
   try {
     const params = new URLSearchParams();
     if (genre) params.append('genre', genre);
     if (rating) params.append('rating', rating);
 
-    const url = new URL(`/api/movies?${params.toString()}`, window.location.origin);
-    const res = await fetch(url);
+    const res = await fetch(`/api/movies?${params.toString()}`);
     if (!res.ok) throw new Error(await res.text());
     return await res.json();
   } catch (err) {
-    throw new Error(`Error: ${err.message}`);
+    throw new Error(`Fetch error: ${err.message}`);
   }
 }
 
-// Insert movies into the table
+// Populate table
 function insertMoviesIntoTable(table, movies) {
   const tbody = table.querySelector('tbody');
   tbody.innerHTML = '';
@@ -62,19 +59,18 @@ function insertMoviesIntoTable(table, movies) {
   movies.forEach(movie => {
     const row = document.createElement('tr');
 
-    // Add movie data cells
     ['title', 'genre', 'rating'].forEach(key => {
-      const cell = document.createElement('td');
-      cell.textContent = movie[key];
-      row.appendChild(cell);
+      const td = document.createElement('td');
+      td.textContent = movie[key];
+      row.appendChild(td);
     });
 
-    const date = new Date(movie.datetime * 1000);
-    const dateCell = document.createElement('td');
-    dateCell.textContent = date.toLocaleDateString();
-    row.appendChild(dateCell);
+    const date = new Date(movie.datetime * 1000).toLocaleDateString();
+    const dateTd = document.createElement('td');
+    dateTd.textContent = date;
+    row.appendChild(dateTd);
 
-    // Row coloring by rating
+    // Color row based on rating
     if (movie.rating <= 2) row.style.backgroundColor = 'red';
     else if (movie.rating <= 5) row.style.backgroundColor = 'orange';
     else if (movie.rating <= 8) row.style.backgroundColor = 'blue';
@@ -84,11 +80,11 @@ function insertMoviesIntoTable(table, movies) {
   });
 }
 
-// Handle dropdown changes
+// Filter handler
 const genreSelect = document.querySelector('#genre');
 const ratingSelect = document.querySelector('#rating');
 const table = document.querySelector('table');
-const errorDiv = document.querySelector('#error');
+const error = document.querySelector('#error');
 
 async function handleFilters() {
   const genre = genreSelect.value || null;
@@ -96,17 +92,17 @@ async function handleFilters() {
 
   try {
     const movies = await fetchMovies(genre, rating);
-    if (movies.length > 0) {
+    if (movies.length) {
+      error.textContent = '';
       table.style.display = '';
-      errorDiv.textContent = '';
       insertMoviesIntoTable(table, movies);
     } else {
       table.style.display = 'none';
-      errorDiv.textContent = 'There are no movies in the database that match your filters.';
+      error.textContent = 'There are no movies in the database that match your filters.';
     }
   } catch (err) {
     table.style.display = 'none';
-    errorDiv.textContent = err.message;
+    error.textContent = err.message;
   }
 }
 

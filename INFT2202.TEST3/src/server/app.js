@@ -9,16 +9,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3022;
 
-// Parse JSON requests
+// Middleware
 app.use(express.json());
 
-// Serve static files
+// Static files
 app.use(express.static(path.join(__dirname, '../../public')));
 
-// Use the movieRouter for /api/movies
+// Use router
 app.use('/api/movies', movieRouter);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}/movie/index.html`);
 });

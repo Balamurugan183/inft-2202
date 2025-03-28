@@ -1,29 +1,42 @@
-import movies from '../data/movies.json' assert { type: 'json' };
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-export function getMovies(req, res) {
-  let { rating, genre } = req.query;
-  let result = [...movies];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  // Filter by rating
-  if (rating !== undefined) {
-    const parsedRating = parseFloat(rating);
-    if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 10) {
-      return res.status(400).json({ error: 'Rating must be a number between 1 and 10.' });
+export async function getMovies(req, res) {
+  try {
+    const dataPath = path.join(__dirname, '../data/movies.json');
+    const raw = await fs.readFile(dataPath, 'utf-8');
+    let movies = JSON.parse(raw);
+
+    let { rating, genre } = req.query;
+    let filtered = [...movies];
+
+    // Filter by rating
+    if (rating !== undefined) {
+      const parsedRating = parseFloat(rating);
+      if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 10) {
+        return res.status(400).json({ error: 'Rating must be a number between 1 and 10.' });
+      }
+      filtered = filtered.filter(m => m.rating < parsedRating);
     }
-    result = result.filter(movie => movie.rating < parsedRating);
-  }
 
-  // Filter by genre (case-insensitive)
-  if (genre !== undefined) {
-    const lowerGenre = genre.toLowerCase();
-    result = result.filter(movie => movie.genre.toLowerCase().includes(lowerGenre));
-    if (result.length === 0) {
-      return res.status(404).json({ error: `No movies found for genre "${genre}"` });
+    // Filter by genre (case-insensitive)
+    if (genre !== undefined) {
+      const lowerGenre = genre.toLowerCase();
+      filtered = filtered.filter(m => m.genre.toLowerCase().includes(lowerGenre));
+      if (filtered.length === 0) {
+        return res.status(404).json({ error: `No movies found for genre "${genre}"` });
+      }
     }
+
+    // Sort by rating descending
+    filtered.sort((a, b) => b.rating - a.rating);
+    res.json(filtered);
+
+  } catch (err) {
+    res.status(500).json({ error: 'Could not load movie data.' });
   }
-
-  // Sort from highest rated to lowest
-  result.sort((a, b) => b.rating - a.rating);
-
-  res.json(result);
 }

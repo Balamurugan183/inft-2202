@@ -1,19 +1,13 @@
 {
+  "name": "inft2202-test3",
   "type": "module",
   "scripts": {
     "start": "nodemon src/server/app.js"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
-  },
-  "name": "inft2202.test3",
-  "version": "1.0.0",
-  "description": "--- -   **Time Alotted:** 1h 50m -   **Weight:** 10% of your overall grade. -   **Read all of the instructions carefully before beginning.** ---",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
