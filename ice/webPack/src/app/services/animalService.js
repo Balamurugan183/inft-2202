@@ -6,7 +6,7 @@ const animalService = {
         
         const headers = new Headers({
             'Content-Type': 'application/json',
-            'user': '100925210'  // Make sure to use your student ID
+            'user': '100925240'  // Make sure to use your student ID
         });
 
         const response = await fetch(url, { headers });
