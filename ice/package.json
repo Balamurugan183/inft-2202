@@ -1,0 +1,19 @@
+{
+  "name": "ice",
+  "version": "1.0.0",
+  "main": "3000",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Balamurugan183/inft-2202.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Balamurugan183/inft-2202/issues"
+  },
+  "homepage": "https://github.com/Balamurugan183/inft-2202#readme",
+  "description": ""
+}
