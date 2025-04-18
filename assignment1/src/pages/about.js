@@ -9,16 +9,16 @@ const About = {
       
       const content = document.createElement('div');
       content.innerHTML = `
-        <p>Product Manager is a simple CRUD application built with vanilla JavaScript, HTML, and CSS.</p>
-        <p>This application uses the following technologies:</p>
+        <p>Product Manager is a lightweight, single-page CRUD application developed using only modern JavaScript, HTML5, and CSS3—without any external frameworks.</p>
+        <p>This project showcases core web development skills such as:</p>
         <ul style="margin-left: 20px; list-style-type: disc;">
           <li>HTML5</li>
-          <li>CSS3</li>
-          <li>JavaScript (ES6+)</li>
-          <li>Webpack for bundling</li>
+          <li>Client-side routing and dynamic UI rendering</li>
+          <li>DOM manipulation with JavaScript</li>
+          <li>Modular code bundled with Webpack</li>
           <li>Local Storage for data persistence</li>
         </ul>
-        <p style="margin-top: 20px;">This project demonstrates how to build a single-page application with client-side routing and state management without using any frameworks.</p>
+        <p style="margin-top: 20px;">It’s designed as a practical example of how to build and manage application state, navigation, and component updates purely on the client side.</p>
       `;
       
       container.appendChild(title);
